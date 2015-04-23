@@ -148,17 +148,35 @@ void testListPeopleInState(string databaseLocation){
     database->listPeopleInState("NY");
     database->listPeopleInState("NJ");
     database->listPeopleInState("DC");
+    database->listPeopleInState("OR");
     
     
+    database->findOldest("NY");
+    database->findOldest("OR");
+    database->findYoungest("NY");
+    database->findYoungest("OR");
     
 }
+
+void testMergePeopleInState(string databaseLocation){
+    TreeDatabase*  database = new TreeDatabase();
+    database->readfile(databaseLocation);
+    database->listPeopleInState("NY");
+    database->listPeopleInState("NJ");
+    database->mergeStates("NY", "NJ");
+    database->listPeopleInState("NJ");
+    database->listPeopleInState("NY");
+    
+}
+
 
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
     string testDatabaseLocation = "/Users/cj/Desktop/dbfile1.txt";
-    testTreeNodes(testDatabaseLocation);
-    testListPeopleInState(testDatabaseLocation);
+    //testTreeNodes(testDatabaseLocation);
+    //testListPeopleInState(testDatabaseLocation);
+    testMergePeopleInState(testDatabaseLocation);
     
     return 0;
 }

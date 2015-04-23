@@ -133,6 +133,7 @@ public:
             if(aNode){
                 return aNode;
             }
+
         }
         
         this->insert(this->root, data);
@@ -261,12 +262,11 @@ public:
         this->findAndDeleteNode(data, false);
     }
 
-    //will find the ListNode but preserve the data in it but delete the
+    //will find the ListNode but preserve the data in it but delete the node
     void findAndDeleteNode(Element *data, bool preserveData) {
 
-        TreeNode<Element> *node = new TreeNode<Element>(data);
-        TreeNode<Element> *newNode = this->find(node);
-        //ListNode<Element>* node = this->find(new ListNode<Element>(data));
+    
+        TreeNode<Element> *node = this->find(data);
         this->deleteNode(node, preserveData);
     }
 
@@ -303,9 +303,19 @@ public:
                 return;
             }
         }
-
+/*
         //TODO: implement
-
+        //Check if the node being removed is the first element
+        if(*node->getData() == *this->head->getData()){
+            
+            ListNode<Element>* temp = this->head->getNext();
+            this->head->deleteNode(preserveData);
+            delete this->head;
+            this->head = temp;
+            this->size--;
+            return;
+        }
+*/
     }
 
 

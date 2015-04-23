@@ -26,6 +26,7 @@ public:
     Person(string ssn, string firstName, string lastName, Date* birthday, State* state);
     Person(string ssn, string firstName, string lastName, string birthday, State* state);
     Person(string ssn);
+    Person(string ssn, Date* birthday);
     Person(string firstName, string lastName);
     ~Person(); //Deconstructor
 
@@ -116,6 +117,14 @@ Person::Person(string ssn){
     this->firstName = "John121";
     this->lastName = "Deere121";
     this->birthday = new Date("02021965");
+    this->state =  new State("RANDOM");
+}
+
+Person::Person(string ssn, Date* birthday){
+    this->ssn = ssn;
+    this->firstName = "John121";
+    this->lastName = "Deere121";
+    this->birthday = birthday;
     this->state =  new State("RANDOM");
 }
 

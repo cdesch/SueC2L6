@@ -122,106 +122,115 @@ public:
             cout << " -- " << stateAbrev << " is not in the list of states" << endl;
         }
     }
-    /*
+    
 
     Person* findPerson(string firstName, string lastName){
         Person* newPerson = new Person(firstName, lastName);
         return this->findPerson(newPerson);
-    }*/
+    }
 
 
-    /*
     Person* findPerson(string ssn){
         Person* newPerson = new Person(ssn);
         return this->findPerson(newPerson);
-    }*/
-    /*
+    }
+    
 
     Person* findPerson(Person* person){
-        ListNode<Person>* newPersonNode = new ListNode<Person>(person);
-        ListNode<Person>* personNode = this->people->find(newPersonNode);
-        if(personNode){
-            return personNode->getData();
+        Person* personObject = this->people->find(person)->getData();
+        if(personObject){
+            return personObject;
         }else{
             return NULL;
         }
-    }*/
+    }
 
-    /*
+    
 
     void findOldest(string stateAbrev){
         State* newState = new State(stateAbrev);
-        ListNode<State>* newStateNode = new ListNode<State>(newState);
-        ListNode<State>* stateNode = this->states->find(newStateNode);
-        if(stateNode){
-            State *headState = stateNode->getData();
-            List<Person>* peopleInState = headState->getPeople();
-            cout << "State: " << headState->getState() << endl;
-            ListNode<Person>* currentPerson = peopleInState->getHead();
-            Person* oldest = currentPerson->getData();
-            while(currentPerson){
-                //cout << "    - " << currentPerson->getData()->getLastName() << " "  << currentPerson->getData()->getState()->getState() << endl;
-                cout << "    - " ;
-                if(currentPerson->getNext() != NULL){
-                    if(*currentPerson->getData()->getBirthday() < *oldest->getBirthday()){
-                        oldest = currentPerson->getData();
-                    }
-                }
-                currentPerson->getData()->printInfoInline();
-                currentPerson = currentPerson->getNext();
-            }
-
+        State* stateObject = this->states->find(newState)->getData();
+        if(stateObject){
+            TreeNode<Person>*personNode = stateObject->getPeople()->getRoot();
+            
+            Person* oldest = findOldestRec(personNode);
             cout << "The oldest person in " << stateAbrev << " is  ";
-            oldest->printInfoInline();
+            oldest->printInfo();
         }else{
             cout << " -- " << stateAbrev << " is not in the list of states" << endl;
         }
 
     }
-*/
-    /*
+    
+    Person* findOldestRec(TreeNode<Person>* node){
+        
+        
+        if(node == NULL){
+            return new Person("00000000", new Date(2015,4,22));
+        }
+        Person* leftSide = findOldestRec(node->getLeft());
+        Person* rightSide = findOldestRec(node->getRight());
+        if(*node->getData()->getBirthday() < *leftSide->getBirthday() &&
+           *node->getData()->getBirthday() < *rightSide->getBirthday() ){
+            return node->getData();
+        }else{
+            if(* leftSide->getBirthday() < *rightSide->getBirthday()){
+                return leftSide;
+            }else{
+                return rightSide;
+            }
+        }
+        
+    }
+
+    
     void findYoungest(string stateAbrev){
         State* newState = new State(stateAbrev);
-        ListNode<State>* newStateNode = new ListNode<State>(newState);
-        ListNode<State>* stateNode = this->states->find(newStateNode);
+        State* stateObject = this->states->find(newState)->getData();
+        if(stateObject){
+            TreeNode<Person>*personNode = stateObject->getPeople()->getRoot();
 
-        if(stateNode){
-            State *headState = stateNode->getData();
-            List<Person>* peopleInState = headState->getPeople();
-            cout << "State: " << headState->getState() << endl;
-            ListNode<Person>* currentPerson = peopleInState->getHead();
-            Person* youngest = currentPerson->getData();
-            while(currentPerson){
-                //cout << "    - " << currentPerson->getData()->getLastName() << " "  << currentPerson->getData()->getState()->getState() << endl;
-                cout << "    - " ;
-                if(currentPerson->getNext() != NULL){
-                    if(*currentPerson->getData()->getBirthday() > *youngest->getBirthday()){
-                        youngest = currentPerson->getData();
-                    }
-                }
-                currentPerson->getData()->printInfoInline();
-                currentPerson = currentPerson->getNext();
-            }
-
+            Person* youngest = findYoungestRec(personNode);
             cout << "The youngest person in " << stateAbrev << " is  ";
-            youngest->printInfoInline();
+            youngest->printInfo();
         }else{
             cout << " -- " << stateAbrev << " is not in the list of states" << endl;
         }
     }
-     */
-/*
+
+    Person* findYoungestRec(TreeNode<Person>* node){
+        
+        
+        if(node == NULL){
+            return new Person("00000000", new Date(1800,1,1));
+        }
+        Person* leftSide = findYoungestRec(node->getLeft());
+        Person* rightSide = findYoungestRec(node->getRight());
+        if(*node->getData()->getBirthday() > *leftSide->getBirthday() &&
+           *node->getData()->getBirthday() > *rightSide->getBirthday() ){
+            return node->getData();
+        }else{
+            if(* leftSide->getBirthday() > *rightSide->getBirthday()){
+                return leftSide;
+            }else{
+                return rightSide;
+            }
+        }
+        
+    }
+    
+
+
+
     State* findState(string stateAbreviation){
         State* newState = new State(stateAbreviation);
-        ListNode<State>* newStateNode = new ListNode<State>(newState);
-        ListNode<State>* stateNode = this->states->find(newStateNode);
+        TreeNode<State>*stateNode = this->states->find(newState);
         if(stateNode){
             return stateNode->getData();
         }else{
             return NULL;
         }
     }
-
     //move ssn oldstate newstate
     void movePerson(string ssn, string oldStateString, string newStateString){
         Person* person = this->findPerson(ssn);
@@ -243,7 +252,7 @@ public:
             //remove the person from the old states linked list but preserve the person data
             oldState->getPeople()->findAndDeleteNode(person, true);
             //add the person to the new states data
-            newState->getPeople()->addNode(person);
+            newState->getPeople()->insert(person);
             newState->getPeople()->sort();
 
 
@@ -252,40 +261,36 @@ public:
     }
 
 
-
     //FIXME: and make me effecient
     void movePerson(Person* person, string oldStateString, string newStateString){
         this->movePerson(person->getSsn(),   oldStateString,  newStateString);
     }
 
-    void mergeStates(string stateString1, string stateString2, string newStateString){
+    
+    void mergeStates(string stateString1, string stateString2){
 
         State* state1 = this->findState(stateString1);
         State* state2 = this->findState(stateString2);
-        State* newState = this->findState(newStateString);
         if(state1 == NULL){
             cout << " -- " << stateString1 << " is not in the list of states" << endl;
         }else if (state2 == NULL){
             cout << " -- " << stateString2 << " is not in the list of states" << endl;
-        }else if (newState != NULL){
-            cout << " -- " << newStateString << " is already a state and cannot be created." << endl;
         }else{
-
-
-            while(state1->getPeople()->getSize() > 0){
-                Person* person = state1->getPeople()->findNodeAtIndex(0)->getData();
-                this->movePerson(person, stateString1, stateString2);
-            }
-
-            state2->setState(newStateString);
-            this->states->findAndDeleteNode(state1);
-            state2->getPeople()->sort();
-
+            
+            mergeIntoState(state1->getPeople()->getRoot(), state2);
         }
 
     }
-    */
 
+    
+    void mergeIntoState(TreeNode<Person>*node, State* newState){
+        if(node == NULL){
+            return;
+        }
+        newState->getPeople()->insert(node->getData());
+        mergeIntoState(node->getLeft(), newState);
+        mergeIntoState(node->getRight(),newState);
+    }
 
 };
 
