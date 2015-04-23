@@ -101,6 +101,7 @@ public:
  */
 
     TreeNode<Element> *find(Element* data){
+        //cout << __PRETTY_FUNCTION__ << endl;
         TreeNode<Element>* node = this->find(this->root, data);
         if(node){
             return node;
@@ -111,9 +112,13 @@ public:
     
     
     TreeNode<Element> *find(TreeNode<Element> *node, Element *data) {
+        
         if (node == NULL) {
+            //cout << "here crash" << endl;
             return node;
         }
+        //cout << "just here" << endl;
+        
         if (*node->getData() == *data) {
             return node;
         }
@@ -277,8 +282,7 @@ public:
 
     //will find the ListNode but preserve the data in it but delete the node
     void findAndDeleteNode(Element *data, bool preserveData) {
-
-    
+        
         TreeNode<Element> *node = this->find(data);
         this->deleteNode(node, preserveData);
     }
@@ -308,7 +312,6 @@ public:
                 this->root->deleteNode(preserveData);
                 delete this->root;
                 this->root = NULL;
-
                 this->size = 0;
                 return;
             } else {

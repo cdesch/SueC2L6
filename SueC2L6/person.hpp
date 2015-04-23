@@ -8,6 +8,7 @@
 #include "date.hpp"
 #include "state.hpp"
 
+extern const string NULL_OBJECT = "NULLOBJECTSTRING" ;
 //**************************
 //  Class Person
 //**************************
@@ -71,18 +72,43 @@ public:
     }
 
     bool operator>(const Person& object){
-        if(this->getSsn() > object.getSsn()) {
-            return true;
+        if(this->getLastName() == NULL_OBJECT || object.getLastName() == NULL_OBJECT){
+            if(this->getSsn() > object.getSsn()) {
+                return true;
+            }else{
+                return false;
+            }
         }else{
-            return false;
+            if(this->getLastName() > object.getLastName()) {
+                if(this->getFirstName() > object.getFirstName()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         }
+        
     }
 
     bool operator<(const Person& object){
-        if(this->getSsn() < object.getSsn()) {
-            return true;
+        if(this->getLastName() == NULL_OBJECT || object.getLastName() == NULL_OBJECT){
+            if(this->getSsn() < object.getSsn()) {
+                return true;
+            }else{
+                return false;
+            }
         }else{
-            return false;
+            if(this->getLastName() < object.getLastName()) {
+                if(this->getFirstName() < object.getFirstName()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         }
     }
 
@@ -114,16 +140,16 @@ Person::Person(string ssn, string firstName, string lastName, string birthday, S
 
 Person::Person(string ssn){
     this->ssn = ssn;
-    this->firstName = "John121";
-    this->lastName = "Deere121";
+    this->firstName = NULL_OBJECT;
+    this->lastName = NULL_OBJECT;
     this->birthday = new Date("02021965");
     this->state =  new State("RANDOM");
 }
 
 Person::Person(string ssn, Date* birthday){
     this->ssn = ssn;
-    this->firstName = "John121";
-    this->lastName = "Deere121";
+    this->firstName = NULL_OBJECT;
+    this->lastName = NULL_OBJECT;
     this->birthday = birthday;
     this->state =  new State("RANDOM");
 }

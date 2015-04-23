@@ -202,7 +202,24 @@ void testRemoveNode(string databaseLocation){
     
     
 }
-
+void testFind(string databaseLocation){
+    TreeDatabase*  database = new TreeDatabase();
+    database->readfile(databaseLocation);
+    cout << "read database" << endl;
+    
+    Person* person = database->findPerson("161760131");
+    assert(person);
+    //person->printInfo();
+    
+    Person* person1 = database->findPerson("152720564");
+    assert(person1);
+    //person1->printInfo();
+    
+    Person* person2 = database->findPerson("163290682");
+    assert(person2);
+    //person2->printInfo();
+    
+}
 
 
 
@@ -403,6 +420,7 @@ int main(int argc, const char * argv[]) {
     //testListPeopleInState(testDatabaseLocation);
     //testMergePeopleInState(testDatabaseLocation);
     //testRemoveNode(testDatabaseLocation);
+    //testFind(testDatabaseLocation);
     commandLineInterpreter();
     
     return 0;

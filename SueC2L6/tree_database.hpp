@@ -126,20 +126,44 @@ public:
 
     Person* findPerson(string firstName, string lastName){
         Person* newPerson = new Person(firstName, lastName);
-        return this->findPerson(newPerson);
+        return this->findPerson( newPerson);
     }
 
 
     Person* findPerson(string ssn){
-        Person* newPerson = new Person(ssn);
-        return this->findPerson(newPerson);
+        Person* newPerson = new Person(ssn); //Uses Null Object Pattern
+        return this->findPersonSSNRec(this->people->getRoot(), newPerson);
+    }
+    
+    
+
+    
+    Person *findPersonSSNRec(TreeNode<Person>*node, Person* person){
+        if(node == NULL){
+            return NULL;
+        }
+        if(node->getData()->getSsn() == person->getSsn()){
+            return node->getData();
+        }
+        Person* leftSide = findPersonSSNRec(node->getLeft(), person);
+        Person* rightSide = findPersonSSNRec(node->getRight(), person);
+        
+        if(leftSide){
+            return leftSide;
+        }else if(rightSide){
+            return rightSide;
+        }else{
+            return NULL;
+        }
+        
     }
     
 
     Person* findPerson(Person* person){
-        Person* personObject = this->people->find(person)->getData();
-        if(personObject){
-            return personObject;
+        //cout << __PRETTY_FUNCTION__ << endl;
+        TreeNode<Person> *personNode = this->people->find(person);
+        if(personNode){
+            return personNode->getData();
         }else{
             return NULL;
         }
