@@ -177,6 +177,19 @@ public:
         node->getData()->printInfo();
         print(node->getRight());
     }
+    
+    void printUnsorted(){
+        this->printUnsorted(this->root);
+    }
+    
+    void printUnsorted(TreeNode<Element>*node){
+        if(node == NULL){
+            return;
+        }
+        node->getData()->printInfo();
+        printUnsorted(node->getLeft());
+        printUnsorted(node->getRight());
+    }
 
     //Setters and Getters
     void setRoot(TreeNode<Element> *node) {
@@ -317,13 +330,43 @@ public:
         }
 */
     }
-
-
-    void sort() {
-
-        //TODO: implement
-
+    
+    bool remove(TreeNode<Element> *node){
+        if(this->root == NULL){
+            return false;
+        }else{
+            //Is the node we want to delete the root node
+            if(*this->root->getData() == *node->getData()){
+                TreeNode<Element> * tempNode = new TreeNode<Element>();
+                tempNode->setLeft(this->root);
+                TreeNode<Element> * removedNode = this->root->remove(node, tempNode);
+                this->root = tempNode->getLeft();
+                if(removedNode != NULL){
+                    delete removedNode;
+                    this->size --;
+                    return true;
+                }else{
+                    return false;
+                }
+                
+            }else{
+                TreeNode<Element> * nodeToRemove = this->root->remove(node, NULL);
+                if(nodeToRemove != NULL){
+                    //Fixme: preserve data
+                    delete nodeToRemove;
+                    this->size --;
+                    return true;
+                }else{
+                    return false;
+                }
+                
+            }
+        }
+        
+        
     }
+    
+  
 };
 
 #endif //SUEC2A4_TREE_HPP

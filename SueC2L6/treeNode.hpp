@@ -6,6 +6,8 @@
 #define SUEC2A4_TREENODE_HPP
 
 #include <string>
+
+//Algoist
 using namespace std;
 
 template<class Element>
@@ -102,6 +104,47 @@ public:
 
     Element* getData(){
         return this->data;
+    }
+    
+    
+    TreeNode<Element> *remove(TreeNode<Element> *node, TreeNode<Element> *parentNode){
+        if(*node->getData() < *this->data){
+            if (this->left != NULL){
+                return left->remove(node, this);
+            }else{
+                return NULL;
+            }
+        }else if(*node->getData() > *this->data){
+            if(right != NULL){
+                return right->remove(node, this);
+            }else{
+                return NULL;
+            }
+        }else{
+            if (left != NULL && right != NULL){
+                this->data = this->right->minNode();
+                return this->right->remove(this, this);
+                
+            }else if(parentNode->left == this){
+                parentNode->left = (this->left != NULL) ? this->left : this->right;
+                return this;
+            }else if(parentNode->right == this){
+                parentNode->right = (this->left != NULL) ? this->left : this->right;
+                return this;
+            }
+        }
+        
+        cout << "Error: Reached code that should have not been reached in: " << __PRETTY_FUNCTION__ << endl;
+        return this;// should never reach this - Here for compiler warnings
+        
+    }
+    
+    Element* minNode(){
+        if (this->left){
+            return this->left->minNode();
+        }else{
+            return this->data;
+        }
     }
 
 };

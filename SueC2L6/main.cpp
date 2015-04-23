@@ -149,8 +149,7 @@ void testListPeopleInState(string databaseLocation){
     database->listPeopleInState("NJ");
     database->listPeopleInState("DC");
     database->listPeopleInState("OR");
-    
-    
+
     database->findOldest("NY");
     database->findOldest("OR");
     database->findYoungest("NY");
@@ -169,6 +168,39 @@ void testMergePeopleInState(string databaseLocation){
     
 }
 
+void testRemoveNode(string databaseLocation){
+    TreeDatabase*  database = new TreeDatabase();
+    database->readfile(databaseLocation);
+    database->listPeopleInState("NY");
+    
+    Date* date = new Date(2015,4,2);
+    State* ny  = database->findState("NY");
+    Person* newPerson = new Person("00100000", "NY MyFirstName1", "NY MyLastName1", date, ny);
+    
+    database->getPeople()->insert(newPerson);
+    ny->getPeople()->insert(newPerson);
+    
+    database->listPeopleInState("NY");
+    cout << endl;
+    //ny->getPeople()->printUnsorted();
+    
+    TreeNode<Person>* newPersonNode = ny->getPeople()->find(newPerson);
+    assert(ny->getPeople()->remove(newPersonNode));
+    assert(!ny->getPeople()->remove(newPersonNode));
+    cout << endl;
+    //ny->getPeople()->printUnsorted();
+    database->listPeopleInState("NY");
+    
+    Person* anotherPerson = database->findPerson("609690069"); //SSN: 609690069  First Name: Gallipoli  Last Name: DeMilt  Birthdate (DDMMYYYY): 10011925 State: NY
+    TreeNode<Person>* anotherPersonNode = ny->getPeople()->find(anotherPerson);
+    assert(ny->getPeople()->remove(anotherPersonNode));
+    assert(!ny->getPeople()->remove(anotherPersonNode));
+
+    database->listPeopleInState("NY");
+    
+    
+}
+
 
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -176,7 +208,8 @@ int main(int argc, const char * argv[]) {
     string testDatabaseLocation = "/Users/cj/Desktop/dbfile1.txt";
     //testTreeNodes(testDatabaseLocation);
     //testListPeopleInState(testDatabaseLocation);
-    testMergePeopleInState(testDatabaseLocation);
+    //testMergePeopleInState(testDatabaseLocation);
+    testRemoveNode(testDatabaseLocation);
     
     return 0;
 }

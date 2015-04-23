@@ -253,7 +253,7 @@ public:
             oldState->getPeople()->findAndDeleteNode(person, true);
             //add the person to the new states data
             newState->getPeople()->insert(person);
-            newState->getPeople()->sort();
+
 
 
         }
@@ -282,7 +282,6 @@ public:
 
     }
 
-    
     void mergeIntoState(TreeNode<Person>*node, State* newState){
         if(node == NULL){
             return;
@@ -291,6 +290,8 @@ public:
         mergeIntoState(node->getLeft(), newState);
         mergeIntoState(node->getRight(),newState);
     }
+    
+
 
 };
 
