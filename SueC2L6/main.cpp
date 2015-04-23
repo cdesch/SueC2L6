@@ -17,6 +17,8 @@
 #include "tree_database.hpp"
 #include "tree.hpp"
 #include "treeNode.hpp"
+
+//TODO: error "find larry brown"
 using namespace std;
 
 enum COMMAND { EXIT_PROGRAM, READ, STATES, LIST, OLDEST, YOUNGEST, FIND, MOVE, MERGE, ERROR};
@@ -202,6 +204,197 @@ void testRemoveNode(string databaseLocation){
 }
 
 
+
+
+vector<string> parseCommandString(string commandString){
+    vector <string> arguments;
+    
+    string token;
+    stringstream stringStream(commandString);
+    
+    while(getline(stringStream, token, ' ')){
+        arguments.push_back(token);
+    }
+    
+    if(arguments.size() == 0){
+        arguments.push_back("ERROR");
+    }
+    return arguments;
+}
+
+
+COMMAND commandDetector(string s){
+    
+    
+    //cout <<  s <<" is an operator "<<  endl;
+    
+    if(s == "exit" ){
+        return EXIT_PROGRAM;
+    }else if(s == "read" ){
+        return READ;
+    }else if(s == "states" ){
+        return STATES;
+    }else if(s == "list" ){
+        return LIST;
+    }else if (s == "oldest" ){
+        return OLDEST;
+    }else if (s == "youngest"){
+        return YOUNGEST;
+    }else if (s == "oldest" ){
+        return OLDEST;
+    }else if (s == "youngest") {
+        return YOUNGEST;
+    }else if (s == "find" ){
+        return FIND;
+    }else if (s == "move") {
+        return MOVE;
+    }else if (s == "merge") {
+        return MERGE;
+    }else{
+        //cout << "Error" << endl;
+        return ERROR;
+    }
+    
+}
+
+
+void commandLineInterpreter(){
+    
+    cout << "Enter a command:" << endl;
+    int command = 100;
+    string commandString;
+    TreeDatabase* database;
+    do{
+        
+        cout << "> ";
+        std::getline(std::cin, commandString);
+        vector<string> arguments = parseCommandString(commandString);
+        COMMAND comm = commandDetector(arguments[0]);
+        
+        if(database == NULL && !(comm != READ || comm != EXIT_PROGRAM)){
+            cout << "Error: There must be a data present prior to running commands against the database." << endl;
+        }else{
+            switch (comm){
+                case READ:
+                    cout << "READING" << endl;
+                    if(arguments.size()>2 || arguments.size() == 1){
+                        cout << "Error: Illegal number of arguments. This command takes two arguements." << endl;
+                        cout << "E.g. read /home/www/labs/152/dbfile1.txt" << endl;
+                    }else{
+                        database = new TreeDatabase();
+                        database->readfile(arguments[1]);
+                        cout << "Reading Complete" << endl;
+                    }
+                    
+                    break;
+                case STATES:
+                    
+                    cout << "States" << endl;
+                    if(arguments.size()>=2 ){
+                        cout << "Error: Illegal number of arguments. This command takes one arguement." << endl;
+                        cout << "E.g. states" << endl;
+                    }else{
+                        database->listStates();
+                    }
+                    
+                    break;
+                case LIST:
+                    
+                    cout << "List" << endl;
+                    
+                    if(arguments.size()>2 || arguments.size() == 1){
+                        cout << "Error: Illegal number of arguments. This command takes two arguement." << endl;
+                        cout << "E.g. list FL" << endl;
+                    }else{
+                        database->listPeopleInState(arguments[1]);
+                    }
+                    
+                    break;
+                case OLDEST:
+                    
+                    cout << "OLDEST" << endl;
+                    
+                    if(arguments.size()>2 || arguments.size() == 1){
+                        cout << "Error: Illegal number of arguments. This command takes two arguement." << endl;
+                        cout << "E.g. oldest NY" << endl;
+                    }else{
+                        database->findOldest(arguments[1]);
+                    }
+                    
+                    break;
+                case YOUNGEST:
+                    cout << "YOUNGEST" << endl;
+                    
+                    if(arguments.size()>2 || arguments.size() == 1){
+                        cout << "Error: Illegal number of arguments. This command takes two arguement." << endl;
+                        cout << "E.g. youngest NY" << endl;
+                    }else{
+                        database->findYoungest(arguments[1]);
+                    }
+                    
+                    break;
+                    
+                case FIND:
+                    cout << "FIND" << endl;
+                    
+                    if(arguments.size() != 3){
+                        cout << "Error: Illegal number of arguments. This command takes three arguement." << endl;
+                        cout << "E.g. find Larry Brown" << endl;
+                    }else{
+                        Person* person = database->findPerson(arguments[1], arguments[2]);
+                        if(person){
+                            cout << "  FOUND: " ;
+                            person->printInfoInline();
+                        }else{
+                            cout << " -- " << arguments[1] << " " <<  arguments[2] << " is not in the list of people" << endl;
+                        }
+                    }
+                    
+                    break;
+                    
+                case MOVE:
+                    
+                    cout << "MOVE" << endl;
+                    //FIXME: Insert in social security order
+                    if(arguments.size() != 4){
+                        cout << "Error: Illegal number of arguments. This command takes four arguement." << endl;
+                        cout << "E.g. move 108690448 KS MD" << endl;
+                    }else{
+                        database->movePerson(arguments[1], arguments[2], arguments[3]);
+                    }
+                    
+                    break;
+                    
+                case MERGE:
+                    cout << "merge" << endl;
+                    
+                    if(arguments.size() != 3){
+                        cout << "Error: Illegal number of arguments. This command takes three arguement." << endl;
+                        cout << "E.g. merge NC SC" << endl;
+                    }else{
+                        database->mergeStates(arguments[1], arguments[2]);
+                    }
+                    break;
+                case EXIT_PROGRAM:
+                    command = 0;
+                    cout << "EXITING" << endl;
+                    break;
+                    
+                case ERROR:
+                    cout<< "Error: Illegal Syntax in command" << endl;
+                    
+                    
+                default:
+                    cout<< "Error: Illegal Syntax in command" << endl;
+            }
+        }
+        
+    }while(command != 0);
+    cout << "Final EXIT" << endl;
+}
+
+
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
@@ -209,7 +402,8 @@ int main(int argc, const char * argv[]) {
     //testTreeNodes(testDatabaseLocation);
     //testListPeopleInState(testDatabaseLocation);
     //testMergePeopleInState(testDatabaseLocation);
-    testRemoveNode(testDatabaseLocation);
+    //testRemoveNode(testDatabaseLocation);
+    commandLineInterpreter();
     
     return 0;
 }
