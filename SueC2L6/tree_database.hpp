@@ -107,7 +107,7 @@ public:
     }
     
     void listPeople(){
-        this->people->print();
+        this->people->printUnsorted();
     }
 
     void listPeopleInState(string stateAbrev){

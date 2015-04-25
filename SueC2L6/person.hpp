@@ -72,13 +72,7 @@ public:
     }
 
     bool operator>(const Person& object){
-        if(this->getLastName() == NULL_OBJECT || object.getLastName() == NULL_OBJECT){
-            if(this->getSsn() > object.getSsn()) {
-                return true;
-            }else{
-                return false;
-            }
-        }else{
+
             if(this->getLastName() > object.getLastName()) {
                 if(this->getFirstName() > object.getFirstName()){
                     return true;
@@ -88,18 +82,11 @@ public:
             }else{
                 return false;
             }
-        }
         
     }
 
     bool operator<(const Person& object){
-        if(this->getLastName() == NULL_OBJECT || object.getLastName() == NULL_OBJECT){
-            if(this->getSsn() < object.getSsn()) {
-                return true;
-            }else{
-                return false;
-            }
-        }else{
+
             if(this->getLastName() < object.getLastName()) {
                 if(this->getFirstName() < object.getFirstName()){
                     return true;
@@ -109,7 +96,6 @@ public:
             }else{
                 return false;
             }
-        }
     }
 
 };

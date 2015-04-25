@@ -23,14 +23,12 @@ public:
         this->data = NULL;
         this->left = NULL;
         this->right = NULL;
-
     }
 
     TreeNode(Element* data){
         this->data = data;
         this->left = NULL;
         this->right = NULL;
-
     }
 
     TreeNode(Element* data, TreeNode<Element>* left,TreeNode<Element>* right ){
@@ -46,12 +44,10 @@ public:
 
     //Deletes node and data
     void deleteWithData(){
-
         if(this->data){
             delete this->data;
             this->data = NULL;
         }
-
     }
 
     void deleteCascading(bool preserveData){
@@ -61,7 +57,6 @@ public:
             delete this->left;
             this->left = NULL;
         }
-
         if(this->right){
             this->right->deleteCascading(preserveData);
             delete this->right;
@@ -70,7 +65,6 @@ public:
     }
 
     void deleteNode(bool preserveData){
-
         if(preserveData){
             this->deleteWithoutData();
         }else{
