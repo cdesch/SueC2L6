@@ -8,10 +8,12 @@
 #include "date.hpp"
 #include "state.hpp"
 
-extern const string NULL_OBJECT = "NULLOBJECTSTRING" ;
+extern const string NULL_OBJECT = "NULLOBJECTSTRING";
+
 //**************************
 //  Class Person
 //**************************
+
 class Person {
 
 private:
@@ -45,7 +47,8 @@ public:
     string getLastName() const;
     Date* getBirthday() const;
     State* getState();
-
+    string getPrintData();
+    
     //SETTERS//
     void setSsn(string ssn);
     void setFirstName(string firstName);
@@ -53,6 +56,7 @@ public:
     void setBirthday(Date *birthday);      //Overloaded!!
     void setBirthday(string birthday);    //Overloaded!!
     void setState(State* state);
+    
 
 
     bool operator==(const Person& object){
@@ -208,6 +212,11 @@ Date* Person::getBirthday() const{
 
 State* Person::getState() {
     return this->state;
+}
+
+
+string Person::getPrintData(){
+    return this->lastName;
 }
 
 //Setters//

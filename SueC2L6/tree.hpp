@@ -10,6 +10,9 @@
 
 #include "treeNode.hpp"
 #include <iostream>
+#include <stdio.h>
+#include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -43,16 +46,63 @@ public:
 
     ~Tree() {
     }
+    
+    long heightOfTree(){
+        return heightOfTree(this->root);
+    }
+    
+    long heightOfTree(TreeNode<Element> *node){
+        //If there is no element, return 0
+        if(!node){
+            return 0;
+        }else{
+            //find high of the left and right subtrees
+            long leftHeight = heightOfTree(node->getLeft());
+            long rightHeight = heightOfTree(node->getRight());
+            
+            return (leftHeight > rightHeight) ? (leftHeight+1) : (rightHeight + 1);
+            /*
+             //Equivalent to the line above
+            if(leftHeight > rightHeight){
+                return leftHeight + 1;
+            }else{
+                return rightHeight + 1;
+            }*/
+        }
+        
+    }
+    
+    void printTree(){
+        long height = this->heightOfTree();
+        cout << "Tree: "<< endl;
+        for(long i = 1; i <= height; i++){
+            printLevel(this->root, i);
+            cout << endl;
+        }
+    }
+    
+    void printLevel(TreeNode<Element> *node, long level){
+        if(!node){
+            return;
+        }
+        if (level == 1){
+            cout << node->getData()->getPrintData() << " ";
+        }else if(level > 1){
+            printLevel(node->getLeft(), level - 1);
+            printLevel(node->getRight(), level - 1);
+        }
+    }
+                      
 
-    long findSize(TreeNode<Element> *root){
+    long findSize(TreeNode<Element> *node){
 
         long leftChildren = 0;
         long rightChildren = 0;
-        if (root->getLeft() != NULL){
-            leftChildren = findSize(root->getLeft());
+        if (node->getLeft() != NULL){
+            leftChildren = findSize(node->getLeft());
         }
-        if (root->getRight() != NULL){
-            rightChildren = findSize(root->getRight());
+        if (node->getRight() != NULL){
+            rightChildren = findSize(node->getRight());
         }
 
         return 1 + rightChildren + leftChildren;

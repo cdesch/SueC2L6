@@ -199,9 +199,76 @@ void testRemoveNode(string databaseLocation){
     assert(!ny->getPeople()->remove(anotherPersonNode));
 
     database->listPeopleInState("NY");
+
+}
+
+void testMove(string databaseLocation){
+
+    TreeDatabase*  database = new TreeDatabase();
+    database->readfile(databaseLocation);
+
+    //112200747
+    database->listPeopleInState("OK");
+    database->listPeopleInState("NY");
+    //database->getStates()->printTree();
+    //database->listStates();
+    cout <<  "MOVE" << endl;
+    database->movePerson("112200747", "OK","NY");
+    cout <<  "MOVE ENDED" << endl;
+    database->listPeopleInState("OK");
+    database->listPeopleInState("NY");
+    database->listPeopleInState("SD");
+    database->listPeopleInState("NC");
+    database->movePerson("122460462", "SD","NY");
+    database->movePerson("123040628", "NC","NY");
+    cout << "Move ended" << endl;
+    database->listPeopleInState("NY");
+    database->listPeopleInState("SD");
+    database->listPeopleInState("NC");
+
+}
+
+void testHeightFunction(string databaseLocation){
+    TreeDatabase*  database = new TreeDatabase();
+    ///database->readfile(databaseLocation);
+
+    State* state = new State("NY");
+    State* state8 = new State("OR");
+    State* state1 = new State("NJ");
+    State* state2 = new State("AL");
+    State* state3 = new State("HI");
+    State* state4 = new State("DC");
+    State* state6 = new State("NY");
+    State* state7 = new State("NY");
+    State* state9 = new State("NH");
     
+    
+    database->getStates()->insert(state);
+    assert(database->getStates()->heightOfTree() == 1);
+    
+    database->getStates()->printTree();
+    
+    assert(*database->getStates()->insert(state8)->getData() == *state8);
+    assert(database->getStates()->heightOfTree() == 2);
+    database->getStates()->printTree();
+    database->getStates()->insert(state1);
+    assert(database->getStates()->heightOfTree() == 2);
+        database->getStates()->printTree();
+    database->getStates()->insert(state2);
+    assert(database->getStates()->heightOfTree() == 3);
+        database->getStates()->printTree();
+    database->getStates()->insert(state3);
+    assert(database->getStates()->heightOfTree() == 4);
+        database->getStates()->printTree();
+    database->getStates()->insert(state4);
+    assert(*database->getStates()->insert(state6)->getData() == *state);
+    assert(*database->getStates()->insert(state7)->getData() == *state);
+    database->getStates()->insert(state9);
+    cout << database->getStates()->heightOfTree() << endl;
+        database->getStates()->printTree();
     
 }
+
 void testFind(string databaseLocation){
     TreeDatabase*  database = new TreeDatabase();
     database->readfile(databaseLocation);
@@ -421,7 +488,9 @@ int main(int argc, const char * argv[]) {
     //testMergePeopleInState(testDatabaseLocation);
     //testRemoveNode(testDatabaseLocation);
     //testFind(testDatabaseLocation);
-    commandLineInterpreter();
+    testMove(testDatabaseLocation);
+    //testHeightFunction(testDatabaseLocation);
+    //commandLineInterpreter();
     
     return 0;
 }

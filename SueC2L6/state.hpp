@@ -22,6 +22,7 @@ protected:
     Tree<Person>* people;
 
 public:
+    
     State(){
         this->stateAbbreviation = "";
         this->people = new Tree<Person>();
@@ -53,6 +54,10 @@ public:
 
     Tree<Person>* getPeople(){
         return this->people;
+    }
+    
+    string getPrintData(){
+        return this->stateAbbreviation;
     }
 
     void printInfo(){

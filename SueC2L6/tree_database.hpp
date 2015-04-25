@@ -117,7 +117,7 @@ public:
         if(state){
             cout << "State: " << state->getState() << " # of people: " <<  state->getPeople()->getSize() << endl;
             
-            state->getPeople()->print();
+            state->getPeople()->printUnsorted();
         }else{
             cout << " -- " << stateAbrev << " is not in the list of states" << endl;
         }
@@ -168,6 +168,10 @@ public:
             return NULL;
         }
     }
+    
+    //TreeNode<Person>* findPersonNode(){
+        
+    //}
 
     
 
@@ -263,9 +267,9 @@ public:
         if(person == NULL){
             cout << " -- " << ssn << " is not in the list of people" << endl;
         }else if (oldState == NULL){
-            cout << " -- " << oldStateString << " is not in the list of states" << endl;
+            cout << " -- " << oldStateString << " is not in the list of states (old state)" << endl;
         }else if (newState == NULL){
-            cout << " -- " << newStateString << " is not in the list of states" << endl;
+            cout << " -- " << newStateString << " is not in the list of states (new state)" << endl;
         }else if (*person->getState() != *oldState){
             cout << " -- " << person->getFirstName() << " " << person->getLastName() << " does not live in " << oldState->getState() << endl;
         }
@@ -274,7 +278,10 @@ public:
             //setting the person's state to the new state
             person->setState(newState);
             //remove the person from the old states linked list but preserve the person data
-            oldState->getPeople()->findAndDeleteNode(person, true);
+            //oldState->getPeople()->findAndDeleteNode(person, true);
+            //oldState->getPeople()->remove(TreeNode<Person> *node)
+            TreeNode<Person>* personNode = oldState->getPeople()->find(person);
+            oldState->getPeople()->remove(personNode);
             //add the person to the new states data
             newState->getPeople()->insert(person);
 
