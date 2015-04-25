@@ -97,6 +97,22 @@ public:
             return false;
         }
     }
+    
+    bool operator>=(const State& object){
+        if(this->getState() > object.getState()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    bool operator<=(const State& object){
+        if(this->getState() < object.getState()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 };
 

@@ -111,15 +111,17 @@ void testTreeNodes(string databaseLocation){
     database->getStates()->insert(state4);
     assert(*database->getStates()->insert(state6)->getData() == *state);
     assert(*database->getStates()->insert(state7)->getData() == *state);
-    State * aState = database->getStates()->insert(state9)->getData();
-    aState->printInfo();
+    //State * aState = database->getStates()->insert(state9)->getData();
+    //aState->printInfo();
     //cout << "here" << endl;
     
-    database->listStates();
+    //database->listStates();
     assert(*database->getStates()->insert(state9)->getData() == *state9);
     assert(database->getStates()->getSize() == 7);
     assert(*database->getStates()->find(state2)->getData() == *state2 );
     assert(*database->getStates()->find(state8)->getData() == *state8 );
+    
+    
     
     //database->listStates();
     
@@ -128,16 +130,37 @@ void testTreeNodes(string databaseLocation){
     Person* person2 = new Person("010000002", "NJ MyFirstName3", "NJ MyLastName3", date, state1);
     Person* person3 = new Person("00000103", "NJ MyFirstName4", "NJ MyLastName4", date, state1);
     Person* person4 = new Person("00100004", "MyFirstName5", "MyLastName5", date, state2);
-    
+    Person* person5 = new Person("00000103", "NJ MyFirstName4", "NJ MyLastName6", date, state);
+    Person* person6 = new Person("00100004", "MyFirstName5", "MyLastName7", date, state);
+    Person* person7 = new Person("00000103", "NJ MyFirstName4", "NJ MyLastName9", date, state);
+    Person* person8 = new Person("00100004", "MyFirstName5", "MyLastName8", date, state);
+    Person* person9 = new Person("10100022", "AAAA", "AAAA", date, state);
     database->getPeople()->insert(person);
+    state->getPeople()->insert(person);
     database->getPeople()->insert(person1);
+    state->getPeople()->insert(person1);
     database->getPeople()->insert(person2);
+    state1->getPeople()->insert(person2);
     database->getPeople()->insert(person3);
+    state1->getPeople()->insert(person3);
     database->getPeople()->insert(person4);
+    state2->getPeople()->insert(person4);
+    database->getPeople()->insert(person5);
+    state->getPeople()->insert(person5);
+    database->getPeople()->insert(person6);
+    state->getPeople()->insert(person6);
+    database->getPeople()->insert(person7);
+    state->getPeople()->insert(person7);
+    database->getPeople()->insert(person8);
+    state->getPeople()->insert(person8);
+    database->getPeople()->insert(person9);
+    state->getPeople()->insert(person9);
+    //database->getPeople()->print();
 
-    assert(database->getPeople()->getSize() == 5);
+    //assert(database->getPeople()->getSize() == 5);
     assert(*database->getPeople()->find(person1)->getData() == *person1 );
     //database->listPeople();
+    state->getPeople()->print();
     
 }
 
@@ -145,8 +168,10 @@ void testListPeopleInState(string databaseLocation){
     TreeDatabase*  database = new TreeDatabase();
     database->readfile(databaseLocation);
 
-    database->getStates()->print();
+    //database->getStates()->print();
+    //database->getPeople()->print();
     assert(database->getStates()->getSize() == 51);
+
     database->listPeopleInState("NY");
     database->listPeopleInState("NJ");
     database->listPeopleInState("DC");
@@ -156,6 +181,7 @@ void testListPeopleInState(string databaseLocation){
     database->findOldest("OR");
     database->findYoungest("NY");
     database->findYoungest("OR");
+    
     
 }
 
@@ -265,7 +291,10 @@ void testHeightFunction(string databaseLocation){
     assert(*database->getStates()->insert(state7)->getData() == *state);
     database->getStates()->insert(state9);
     cout << database->getStates()->heightOfTree() << endl;
-        database->getStates()->printTree();
+    database->getStates()->printTree();
+    cout << "PRINTING" << endl << endl;
+    database->getStates()->print();
+    
     
 }
 
@@ -372,7 +401,6 @@ void commandLineInterpreter(){
                     
                     break;
                 case STATES:
-                    
                     cout << "States" << endl;
                     if(arguments.size()>=2 ){
                         cout << "Error: Illegal number of arguments. This command takes one arguement." << endl;
@@ -380,10 +408,8 @@ void commandLineInterpreter(){
                     }else{
                         database->listStates();
                     }
-                    
                     break;
                 case LIST:
-                    
                     cout << "List" << endl;
                     
                     if(arguments.size()>2 || arguments.size() == 1){
@@ -488,9 +514,9 @@ int main(int argc, const char * argv[]) {
     //testMergePeopleInState(testDatabaseLocation);
     //testRemoveNode(testDatabaseLocation);
     //testFind(testDatabaseLocation);
-    testMove(testDatabaseLocation);
+    //testMove(testDatabaseLocation);
     //testHeightFunction(testDatabaseLocation);
-    //commandLineInterpreter();
+    commandLineInterpreter();
     
     return 0;
 }

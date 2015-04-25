@@ -185,6 +185,7 @@ public:
     TreeNode<Element> * insert(Element *data) {
         if (this->enforceUniqueItems) {
             TreeNode<Element> * aNode = this->find(data);
+
             if(aNode){
                 return aNode;
             }
@@ -209,13 +210,13 @@ public:
             TreeNode<Element> * newNode = new TreeNode<Element>(data);
             this->size ++;
             return newNode;
-        }
-
-        else if (*node->getData() > *data) {
+        }else if (*node->getData() >= *data) {
             node->setLeft(insert(node->getLeft(), data));
         } else {
             node->setRight(insert(node->getRight(), data));
         }
+        
+       // cout << "111ERROR: SHOULD NEVER REACH THIS LINE: "  << data->getPrintData() << endl;
         return node;
     }
     

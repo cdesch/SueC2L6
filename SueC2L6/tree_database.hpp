@@ -77,8 +77,9 @@ public:
                 Date* birthdate = new Date(dateString); //Creates a new date object
 
                 State* state = new State(stateString); //creating a new state
+                //cout << stateString << endl;
                 state = this->states->insert(state)->getData(); //add it to the list BUT if there is already a state of the same name in it, return that state instead
-
+                //TreeNode<State>* stateNode = this->states->insert(state);
                 Person* person = new Person(ssnString, firstName, lastName, birthdate, state);
                 state->addPerson(person);
                 this->people->insert(person);
@@ -107,7 +108,7 @@ public:
     }
     
     void listPeople(){
-        this->people->printUnsorted();
+        this->people->print();
     }
 
     void listPeopleInState(string stateAbrev){
@@ -117,7 +118,8 @@ public:
         if(state){
             cout << "State: " << state->getState() << " # of people: " <<  state->getPeople()->getSize() << endl;
             
-            state->getPeople()->printUnsorted();
+            state->getPeople()->print();
+            //state->getPeople()->printTree();
         }else{
             cout << " -- " << stateAbrev << " is not in the list of states" << endl;
         }
