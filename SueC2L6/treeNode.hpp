@@ -8,6 +8,7 @@
 #include <string>
 
 //Algoist
+
 using namespace std;
 
 template<class Element>

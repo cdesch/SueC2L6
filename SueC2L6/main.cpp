@@ -18,10 +18,11 @@
 #include "tree.hpp"
 #include "treeNode.hpp"
 
-//TODO: error "find larry brown"
 using namespace std;
 
 enum COMMAND { EXIT_PROGRAM, READ, STATES, LIST, OLDEST, YOUNGEST, FIND, MOVE, MERGE, ERROR};
+
+
 void testDateClass(){
     Date* date = new Date(2015,4,2);
     assert(date->getYear() == 2015);
