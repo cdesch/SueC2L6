@@ -268,9 +268,8 @@ public:
     void movePerson(Person* person, string oldStateString, string newStateString){
         this->movePerson(person->getSsn(),   oldStateString,  newStateString);
     }
-
+    
     void mergeStates(string stateString1, string stateString2){
-
         State* state1 = this->findState(stateString1);
         State* state2 = this->findState(stateString2);
         if(state1 == NULL){
@@ -278,7 +277,6 @@ public:
         }else if (state2 == NULL){
             cout << " -- " << stateString2 << " is not in the list of states" << endl;
         }else{
-            
             mergeIntoState(state1->getPeople()->getRoot(), state2);
         }
     }
