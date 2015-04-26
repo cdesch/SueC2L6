@@ -57,8 +57,6 @@ public:
     void setBirthday(string birthday);    //Overloaded!!
     void setState(State* state);
     
-
-
     bool operator==(const Person& object){
         if((this->getLastName() == object.getLastName() && this->getFirstName() == object.getFirstName()) || this->getSsn() == object.getSsn()){
             return true;
@@ -77,49 +75,10 @@ public:
 
     bool operator>(const Person& object){
 
-            if(this->getLastName() > object.getLastName()) {
-                //cout << "L " << this->getLastName() << " > " << object.getLastName() << endl;
-                return true;
-                /*
-                if(this->getFirstName() > object.getFirstName()){
-                    //cout << "F " << this->getFirstName() << " > " << object.getFirstName() << endl;
-                    return true;
-                }else{
-                    return false;
-                }*/
-            }else{
-                return false;
-            }
-        
-    }
-
-    bool operator<(const Person& object){
-
-            if(this->getLastName() < object.getLastName()) {
-                //cout << "L " << this->getLastName() << " < " << object.getLastName() << endl;
-                return true;
-                /*
-                if(this->getFirstName() < object.getFirstName()){
-                    //cout << "F " << this->getLastName() << " < " << object.getLastName() << endl;
-                    return true;
-                }else{
-                    return false;
-                }*/
-            }else{
-                return false;
-            }
-    }
-    
-    
-    bool operator>=(const Person& object){
-        
         if(this->getLastName() > object.getLastName()) {
-            
             return true;
-
         }else if(this->getLastName() == object.getLastName()){
-            if(this->getFirstName() >= object.getFirstName()){
-                
+            if(this->getFirstName() > object.getFirstName()){
                 return true;
             }else{
                 return false;
@@ -127,13 +86,40 @@ public:
         }else{
             return false;
         }
-        
+    }
+
+    bool operator<(const Person& object){
+
+        if(this->getLastName() < object.getLastName()) {
+            return true;
+        }else if(this->getLastName() == object.getLastName()){
+            if(this->getFirstName() < object.getFirstName()){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+    
+    
+    bool operator>=(const Person& object){
+        if(this->getLastName() > object.getLastName()) {
+            return true;
+        }else if(this->getLastName() == object.getLastName()){
+            if(this->getFirstName() >= object.getFirstName()){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
     
     bool operator<=(const Person& object){
-        
         if(this->getLastName() < object.getLastName()) {
-           
             return true;
         }
         else if (this->getLastName() == object.getLastName()){

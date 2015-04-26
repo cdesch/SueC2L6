@@ -6,8 +6,6 @@
 #define SUEC2A4_TREE_HPP
 
 
-
-
 #include "treeNode.hpp"
 #include <iostream>
 #include <stdio.h>
@@ -69,7 +67,6 @@ public:
                 return rightHeight + 1;
             }*/
         }
-        
     }
     
     void printTree(){
@@ -106,7 +103,6 @@ public:
         }
 
         return 1 + rightChildren + leftChildren;
-
     }
 
     void deleteWithData() {
@@ -125,33 +121,8 @@ public:
             this->size = 0;
         }
     }
-/*
-    /////FIXME REMOVE
-    Element *addNode(Element *data) {
-        TreeNode<Element> *newNode = new TreeNode<Element>(data);
-        TreeNode<Element> *returnedNode = this->addNode(newNode);
-        return returnedNode->getData();
-    }
-
-     /////FIXME REMOVE
-    TreeNode<Element> *addNode(TreeNode<Element> *node) {
-
-        //If every node must be unique, lets check for that. If we find a duplicate node, return that node, if not return the inserted node.
-        //In other words, to avoid duplicates, lets return an existing node or the new node.
-        if (this->enforceUniqueItems) {
-            TreeNode<Element> *myNode = this->isNodeInDataStructure(node);
-            if (myNode) return myNode;
-        }
-
-
-        //TODO: Implement
-        this->size++;
-        return node;
-    }
- */
 
     TreeNode<Element> *find(Element* data){
-        //cout << __PRETTY_FUNCTION__ << endl;
         TreeNode<Element>* node = this->find(this->root, data);
         if(node){
             return node;
@@ -160,20 +131,16 @@ public:
         }
     }
     
-    
     TreeNode<Element> *find(TreeNode<Element> *node, Element *data) {
         
-        if (node == NULL) {
-            //cout << "here crash" << endl;
+        if (!node) {
             return node;
         }
-        //cout << "just here" << endl;
         
         if (*node->getData() == *data) {
             return node;
         }
-
-        //FIXEME -- Test
+        
         if (*node->getData() > *data) {
             return find(node->getLeft(), data);
         } else {
@@ -181,7 +148,6 @@ public:
         }
     }
 
-    //FIXME Return element inserted or null
     TreeNode<Element> * insert(Element *data) {
         if (this->enforceUniqueItems) {
             TreeNode<Element> * aNode = this->find(data);
@@ -189,7 +155,6 @@ public:
             if(aNode){
                 return aNode;
             }
-
         }
         
         this->insert(this->root, data);
@@ -198,15 +163,13 @@ public:
 
     TreeNode<Element> * insert(TreeNode<Element> *node, Element *data) {
 
-        if(this->root == NULL){
+        if(!this->root){
             this->root = new TreeNode<Element>(data);
             this->size ++;
             return this->root;
         }
         
-   
-        
-        if (node == NULL) {
+        if (!node) {
             TreeNode<Element> * newNode = new TreeNode<Element>(data);
             this->size ++;
             return newNode;
@@ -215,8 +178,6 @@ public:
         } else {
             node->setRight(insert(node->getRight(), data));
         }
-        
-       // cout << "111ERROR: SHOULD NEVER REACH THIS LINE: "  << data->getPrintData() << endl;
         return node;
     }
     
@@ -264,128 +225,15 @@ public:
         return this->enforceUniqueItems;
     }
 
-    TreeNode<Element> *getNode(int index) {
-        //check if index it out of bounds
-        if (index >= this->size || index < 0) {
-            cout << "ERROR: Index is out of bounds" << endl;
-            return NULL;
-        }
-
-        //TODO: determine if it is needed
-        //it will never run this line
-        return NULL;
-    }
-
     long getSize() const {
         return this->size;
     }
-
-
-    TreeNode<Element> *isNodeInDataStructure(TreeNode<Element> *node) {
-
-        //TODO: implement
-
-        //If the node is not found, return NULL.
-        return NULL;
-    }
-
-    TreeNode<Element> *find(TreeNode<Element> *node) {
-        return this->isNodeInDataStructure(node);
-    }
-
-    /*
-    ListNode<Element>* findNodeAtIndex(int index){
-        if(index < 0 || index >= this->size){
-            cout << "ERROR: Index is out of bounds" << endl;
-            return NULL;
-        }
-        int currentIndex = 0;
-
-        ListNode<Element>* myCurrentNode = this->root;
-        //FIXME: Can this be cleaned up?
-        while(myCurrentNode){
-            if(currentIndex == index){
-                return myCurrentNode;
-            }
-            if(myCurrentNode->getNext() == NULL){
-                return myCurrentNode;
-            }else{
-                currentIndex ++;
-                myCurrentNode = myCurrentNode->getNext();
-            }
-        }
-        return myCurrentNode;
-    }
-     */
-
-
-    Element *findData(Element *data) {
-
-        //TODO: implement
-        //If the node is not found, return NULL.
-        return NULL;
-    }
-
-    //Helper function for finding and deleting data
-    void findAndDeleteNode(Element *data) {
-        this->findAndDeleteNode(data, false);
-    }
-
-    //will find the ListNode but preserve the data in it but delete the node
-    void findAndDeleteNode(Element *data, bool preserveData) {
-        
-        TreeNode<Element> *node = this->find(data);
-        this->deleteNode(node, preserveData);
-    }
-
-
-    void deleteNode(TreeNode<Element> *node) {
-        this->deleteNode(node, false);
-    }
-
-    void deleteNode(TreeNode<Element> *node, bool preserveData) {
-
-        if (node == NULL) {
-            cout << "Warning: Node can not equal null when deleting a listNode" << endl;
-            return;
-        }
-
-        //use case if there is no elements in the list
-        if (this->size == 0) {
-            cout << "Warning: cannot remove node from empty list " << endl;
-            return;
-        }
-
-        //use case if there is only one element in the list
-        if (this->size == 1) {
-            TreeNode<Element> *headNode = this->getRoot();
-            if (*node->getData() == *node->getData()) {
-                this->root->deleteNode(preserveData);
-                delete this->root;
-                this->root = NULL;
-                this->size = 0;
-                return;
-            } else {
-                cout << "Warning: nodes do match and cannot be removed" << endl;
-                return;
-            }
-        }
-/*
-        //TODO: implement
-        //Check if the node being removed is the first element
-        if(*node->getData() == *this->head->getData()){
-            
-            ListNode<Element>* temp = this->head->getNext();
-            this->head->deleteNode(preserveData);
-            delete this->head;
-            this->head = temp;
-            this->size--;
-            return;
-        }
-*/
+   
+    bool remove(TreeNode<Element> *node){
+        return this->remove(node, false);
     }
     
-    bool remove(TreeNode<Element> *node){
+    bool remove(TreeNode<Element> *node, bool preserveData){
         if(this->root == NULL){
             return false;
         }else{
@@ -396,6 +244,9 @@ public:
                 TreeNode<Element> * removedNode = this->root->remove(node, tempNode);
                 this->root = tempNode->getLeft();
                 if(removedNode != NULL){
+                    if(!preserveData){
+                        delete removedNode->getData();
+                    }
                     delete removedNode;
                     this->size --;
                     return true;
@@ -406,7 +257,9 @@ public:
             }else{
                 TreeNode<Element> * nodeToRemove = this->root->remove(node, NULL);
                 if(nodeToRemove != NULL){
-                    //Fixme: preserve data
+                    if(!preserveData){
+                        delete nodeToRemove->getData();
+                    }
                     delete nodeToRemove;
                     this->size --;
                     return true;
@@ -417,9 +270,7 @@ public:
             }
         }
         
-        
     }
-    
   
 };
 

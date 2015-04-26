@@ -65,53 +65,68 @@ public:
     }
 
     bool operator==(const State& object){
+        return (this->getState() == object.getState()) ? true : false;
+        /*
+         //Eq
         if(this->getState() == object.getState()){
             return true;
         }else{
             return false;
         }
+         */
     }
 
     bool operator!=(const State& object){
+        return (this->getState() == object.getState()) ? false : true;
+        /*
+         //eq
         if(this->getState() == object.getState()){
             return false;
         }else{
             return true;
         }
+         */
     }
 
     bool operator>(const State& object){
-        //if(this->getState().compare(object.getState()) < 0) {
+        return (this->getState() > object.getState()) ? true : false;
+        /*
         if(this->getState() > object.getState()){
             return true;
         }else{
             return false;
-        }
+        }*/
     }
 
     bool operator<(const State& object){
-        //if(this->getState().compare(object.getState()) > 0) {
+        return (this->getState() < object.getState()) ? true : false;
+        /*
         if(this->getState() < object.getState()){
             return true;
         }else{
             return false;
-        }
+        }*/
     }
     
     bool operator>=(const State& object){
+        return (this->getState() > object.getState()) ? true : false;
+        /*
         if(this->getState() > object.getState()){
             return true;
         }else{
             return false;
-        }
+        }*/
     }
     
     bool operator<=(const State& object){
+        return (this->getState() < object.getState()) ? true : false;
+        /*
         if(this->getState() < object.getState()){
             return true;
         }else{
             return false;
         }
+         */
     }
 
 };

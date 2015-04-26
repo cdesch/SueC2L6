@@ -83,7 +83,6 @@ public:
     void setMonth(int m);
     void setDay(int d);
 
-
     bool operator>(const Date& object){
         if(this->getYear() > object.getYear()){
             return true;
@@ -203,11 +202,7 @@ void Date::printInfoInline(){
 }
 
 void Date::prettyPrint(){
-
-
     printf("%d of %s %d\n", this->day, months[this->month].c_str(), this->year );
-
-
 }
 
 //GETTERS//

@@ -79,12 +79,11 @@ public:
                 State* state = new State(stateString); //creating a new state
                 //cout << stateString << endl;
                 state = this->states->insert(state)->getData(); //add it to the list BUT if there is already a state of the same name in it, return that state instead
-                //TreeNode<State>* stateNode = this->states->insert(state);
+
                 Person* person = new Person(ssnString, firstName, lastName, birthdate, state);
                 state->addPerson(person);
                 this->people->insert(person);
 
-                //person->printInfo();
                 this->numberOfRecordsCounted ++;
 
             }
@@ -117,28 +116,22 @@ public:
         State* state = this->states->find(newState)->getData();
         if(state){
             cout << "State: " << state->getState() << " # of people: " <<  state->getPeople()->getSize() << endl;
-            
             state->getPeople()->print();
-            //state->getPeople()->printTree();
+
         }else{
             cout << " -- " << stateAbrev << " is not in the list of states" << endl;
         }
     }
-    
 
     Person* findPerson(string firstName, string lastName){
         Person* newPerson = new Person(firstName, lastName);
         return this->findPerson( newPerson);
     }
 
-
     Person* findPerson(string ssn){
         Person* newPerson = new Person(ssn); //Uses Null Object Pattern
         return this->findPersonSSNRec(this->people->getRoot(), newPerson);
     }
-    
-    
-
     
     Person *findPersonSSNRec(TreeNode<Person>*node, Person* person){
         if(node == NULL){
@@ -157,12 +150,9 @@ public:
         }else{
             return NULL;
         }
-        
     }
-    
 
     Person* findPerson(Person* person){
-        //cout << __PRETTY_FUNCTION__ << endl;
         TreeNode<Person> *personNode = this->people->find(person);
         if(personNode){
             return personNode->getData();
@@ -170,12 +160,6 @@ public:
             return NULL;
         }
     }
-    
-    //TreeNode<Person>* findPersonNode(){
-        
-    //}
-
-    
 
     void findOldest(string stateAbrev){
         State* newState = new State(stateAbrev);
@@ -189,11 +173,9 @@ public:
         }else{
             cout << " -- " << stateAbrev << " is not in the list of states" << endl;
         }
-
     }
     
     Person* findOldestRec(TreeNode<Person>* node){
-        
         
         if(node == NULL){
             return new Person("00000000", new Date(2015,4,22));
@@ -229,8 +211,7 @@ public:
     }
 
     Person* findYoungestRec(TreeNode<Person>* node){
-        
-        
+
         if(node == NULL){
             return new Person("00000000", new Date(1800,1,1));
         }
@@ -249,9 +230,6 @@ public:
         
     }
     
-
-
-
     State* findState(string stateAbreviation){
         State* newState = new State(stateAbreviation);
         TreeNode<State>*stateNode = this->states->find(newState);
@@ -280,26 +258,17 @@ public:
             //setting the person's state to the new state
             person->setState(newState);
             //remove the person from the old states linked list but preserve the person data
-            //oldState->getPeople()->findAndDeleteNode(person, true);
-            //oldState->getPeople()->remove(TreeNode<Person> *node)
             TreeNode<Person>* personNode = oldState->getPeople()->find(person);
-            oldState->getPeople()->remove(personNode);
+            oldState->getPeople()->remove(personNode, true);
             //add the person to the new states data
             newState->getPeople()->insert(person);
-
-
-
         }
-
     }
-
-
-    //FIXME: and make me effecient
+    
     void movePerson(Person* person, string oldStateString, string newStateString){
         this->movePerson(person->getSsn(),   oldStateString,  newStateString);
     }
 
-    
     void mergeStates(string stateString1, string stateString2){
 
         State* state1 = this->findState(stateString1);
@@ -312,7 +281,6 @@ public:
             
             mergeIntoState(state1->getPeople()->getRoot(), state2);
         }
-
     }
 
     void mergeIntoState(TreeNode<Person>*node, State* newState){
@@ -323,8 +291,6 @@ public:
         mergeIntoState(node->getLeft(), newState);
         mergeIntoState(node->getRight(),newState);
     }
-    
-
 
 };
 

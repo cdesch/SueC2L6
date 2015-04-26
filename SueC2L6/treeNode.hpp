@@ -100,20 +100,24 @@ public:
         return this->data;
     }
     
-    
     TreeNode<Element> *remove(TreeNode<Element> *node, TreeNode<Element> *parentNode){
         if(*node->getData() < *this->data){
+            return (this->left != NULL) ? left->remove(node, this) : NULL;
+            /*
+             //Equivalent to
             if (this->left != NULL){
                 return left->remove(node, this);
             }else{
                 return NULL;
-            }
+            }*/
         }else if(*node->getData() > *this->data){
+            return (this->right != NULL) ? right->remove(node, this) : NULL;
+            /*
             if(right != NULL){
                 return right->remove(node, this);
             }else{
                 return NULL;
-            }
+            }*/
         }else{
             if (left != NULL && right != NULL){
                 this->data = this->right->minNode();
@@ -127,18 +131,21 @@ public:
                 return this;
             }
         }
-        
         cout << "Error: Reached code that should have not been reached in: " << __PRETTY_FUNCTION__ << endl;
         return this;// should never reach this - Here for compiler warnings
-        
     }
     
     Element* minNode(){
+        
+        return (this->left) ? this->left->minNode() : this->data;
+        /*
+         //Equivalent to
         if (this->left){
             return this->left->minNode();
         }else{
             return this->data;
         }
+         */
     }
 
 };
